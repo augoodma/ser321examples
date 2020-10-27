@@ -17,6 +17,7 @@ write a response back
 package funHttpServer;
 
 import java.io.*;
+import org.json.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -200,7 +201,6 @@ class WebServer {
           Map<String, String> query_pairs = new LinkedHashMap<String, String>();
           // extract path parameters
           query_pairs = splitQuery(request.replace("multiply?", ""));
-System.out.println(query_pairs);
           // extract required fields from parameters
           try{
             Integer num1 = Integer.parseInt(query_pairs.get("num1"));
@@ -215,7 +215,7 @@ System.out.println(query_pairs);
             builder.append("Result is: " + result);
 
           } catch (Exception ex) {
-            builder.append("HTTP/1.1 400 Not Found\n");
+            builder.append("HTTP/1.1 400 Bad Request\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
             builder.append("Did not enter 2 numbers");
@@ -237,7 +237,26 @@ System.out.println(query_pairs);
           String json = fetchURL("https://api.github.com/" + query_pairs.get("query"));
           System.out.println(json);
 
-          builder.append("Check the todos mentioned in the Java source file");
+          // new JSON which we want to save later on
+          JSONArray newjSON = new JSONArray();
+          // Generate response
+          builder.append("HTTP/1.1 200 OK\n");
+          builder.append("Content-Type: text/html; charset=utf-8\n");
+          builder.append("\n");
+          // go through all the entries in the JSON array (so all the repos of the user)
+          for(int i=0; i<repoArray.length(); i++){
+
+            // now we have a JSON object, one repo
+            JSONObject repo = repoArray.getJSONObject(i);
+            // get repo name
+            String repoName = repo.getString("name");
+
+            // owner is a JSON object in the repo object, get it and save it in own variable then read the login name
+            JSONObject owner = repo.getJSONObject("owner");
+            String ownername = owner.getString("login");
+            String id = owner.getString("id");
+            builder.append(owner + ", " + id + " -> " + repoName + "\n");
+          }
           // TODO: Parse the JSON returned by your fetch and create an appropriate
           // response
           // and list the owner name, owner id and name of the public repo on your webpage, e.g.
