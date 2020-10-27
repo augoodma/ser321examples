@@ -200,7 +200,7 @@ class WebServer {
           Map<String, String> query_pairs = new LinkedHashMap<String, String>();
           // extract path parameters
           query_pairs = splitQuery(request.replace("multiply?", ""));
-
+System.out.println(query_pairs);
           // extract required fields from parameters
           try{
             Integer num1 = Integer.parseInt(query_pairs.get("num1"));
