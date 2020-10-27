@@ -258,9 +258,9 @@ class WebServer {
 
             // owner is a JSON object in the repo object, get it and save it in own variable then read the login name
             JSONObject owner = repo.getJSONObject("owner");
-            String ownername = owner.getString("login");
+            String ownerName = owner.getString("login");
             //int id = owner.getInteger("id");
-            builder.append(owner + " -> " + repoName + "\n");
+            builder.append(ownerName + " -> " + repoName + "\n");
           }
           // TODO: Parse the JSON returned by your fetch and create an appropriate
           // response
