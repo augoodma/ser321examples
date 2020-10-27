@@ -236,9 +236,13 @@ class WebServer {
           query_pairs = splitQuery(request.replace("github?", ""));
           String json = fetchURL("https://api.github.com/" + query_pairs.get("query"));
           System.out.println(json);
+         
+          // saving it as JSON array (if it sere not an array it woudl need to be a JSONObject)
+          JSONArray repoArray = new JSONArray(json);
 
           // new JSON which we want to save later on
           JSONArray newjSON = new JSONArray();
+
           // Generate response
           builder.append("HTTP/1.1 200 OK\n");
           builder.append("Content-Type: text/html; charset=utf-8\n");
@@ -248,6 +252,7 @@ class WebServer {
 
             // now we have a JSON object, one repo
             JSONObject repo = repoArray.getJSONObject(i);
+            
             // get repo name
             String repoName = repo.getString("name");
 
