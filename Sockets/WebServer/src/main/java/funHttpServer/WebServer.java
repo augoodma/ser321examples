@@ -260,7 +260,7 @@ class WebServer {
             JSONObject owner = repo.getJSONObject("owner");
             String ownerName = owner.getString("login");
             int id = owner.getInt("id");
-            builder.append(ownerName + ", " + id + " -> " + repoName + " \n ");
+            builder.append(ownerName + ", " + id + " -> " + repoName + " | ");
             //builder.append("\n");
           }
           // TODO: Parse the JSON returned by your fetch and create an appropriate
