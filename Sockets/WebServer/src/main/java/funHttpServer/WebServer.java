@@ -205,13 +205,6 @@ System.out.println(query_pairs);
           try{
             Integer num1 = Integer.parseInt(query_pairs.get("num1"));
             Integer num2 = Integer.parseInt(query_pairs.get("num2"));
-          } catch (Exception ex) {
-            builder.append("HTTP/1.1 404 Not Found\n");
-            builder.append("Content-Type: text/html; charset=utf-8\n");
-            builder.append("\n");
-            builder.append("Did not enter 2 numbers");
-          }
-          if(num1 != null && num2 != null){
             // do math
             Integer result = num1 * num2;
 
@@ -221,15 +214,14 @@ System.out.println(query_pairs);
             builder.append("\n");
             builder.append("Result is: " + result);
 
-            // TODO: Include error handling here with a correct error code and
-            // a response that makes sense
+          } catch (Exception ex) {
+            builder.append("HTTP/1.1 400 Not Found\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Did not enter 2 numbers");
           }
-          else{
-              builder.append("HTTP/1.1 400 Bad Request\n");
-              builder.append("Content-Type: text/html; charset=utf-8\n");
-              builder.append("\n");
-              builder.append("Did not enter 2 numbers");
-          }
+
+
 
         } else if (request.contains("github?")) {
           // pulls the query from the request and runs it with GitHub's REST API
