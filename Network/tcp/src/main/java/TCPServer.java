@@ -1,9 +1,12 @@
+package server;
+
 import java.net.*;
 import java.io.*;
 
 public class TCPServer {
 	public static void main (String args[]) {
 		ServerSocket listenSocket = null;
+		//1) fetch server params
         if (args.length != 2) {
           System.out.println("Wrong number of arguments:\ngradle runServer --args=\"8888 9\"");
           System.exit(0);
@@ -18,8 +21,11 @@ public class TCPServer {
             System.exit(2);
         }
 		try {
+			//2) create a socket using TCP
 			listenSocket = new ServerSocket(portNo);
 			while(true) {
+				//5) mark socket so it listens for connections
+				//6) blocking wait
 				Socket clientSocket = listenSocket.accept();
 				new Connection(clientSocket, delay);
 			}
@@ -46,6 +52,7 @@ class Connection extends Thread {
 	public Connection (Socket aClientSocket, long msDelay) {
 		try {
 			clientSocket = aClientSocket;
+			//7)handle the connection
 			in = new DataInputStream( clientSocket.getInputStream());
 			out =new DataOutputStream( clientSocket.getOutputStream());
 			__msDelay = msDelay;
@@ -69,6 +76,7 @@ class Connection extends Thread {
 		}
 		finally { 
 			try {
+				//8) close the connection
 				clientSocket.close();
 			} catch (IOException e) {
 				/*close failed*/
